@@ -1,18 +1,15 @@
 import React,{useState} from 'react'
 import './BuyCoin.css';
-// import { CProgressBar } from '@coreui/react'
-// import ProgressBar from 'react-bootstrap/ProgressBar'; 
-// import 'bootstrap/dist/css/bootstrap.min.css';
 import LinearProgress from '@mui/material/LinearProgress';
-
+const owner="0xAbDfaE994FBE4bA8b502b199Dee9d54Fd1aD9411";
 const BuyCoin = (props) => {
     const [amount,setAmount] = useState(0);
     const handleClick = async () => {
-        console.log(props.token);
         console.log("clicked",amount,props.addr);
-        await props.transfer(props.addr,amount);
+        // await props.token.functions.transferFrom(owner,props.addr,amount);
+        // console.log(await props.token.approve(props.addr,20));
+        console.log(await props.token.transfer(props.addr,amount));
     }
-    console.log("user balance is",props.userBal);
   return (
     <div className="txn-outer">
     <div className='txn-box'>

@@ -53,15 +53,13 @@ const MainPage = () => {
         oBal=parseInt(oBal[0]._hex,16);
         console.log("user balance is",uBal);
         console.log("owner balance is",oBal);
-        // setUserBal(parseInt(uBal[0]._hex,16));
         setOwnerBal(oBal);
-        // // userBal=parseInt(userBal[0]._hex,16);
-        // // ownerBal=parseInt(ownerBal[0]._hex,16);
-        console.log(uBal,ownerBal);
+        setUserBal(uBal);
+        console.log(uBal,oBal);
         setCurrentAccount(selectedAddress);
         tokenData = await  getTokenData(selectedAddress);
-        setCroToken(token);
-        console.log(croToken)
+        console.log(token);
+        setCroToken(await token);
         return selectedAddress;
     }
     const initialiseEther =() =>{
@@ -95,8 +93,9 @@ const MainPage = () => {
     const transfer= async(addr,amt) =>{
         console.log(token);
         await token.functions.transfer(addr,amt);
-    console.log(addr,amt);
-}
+        console.log(addr,amt);
+        setUserBal(token.functions.balanceOf(addr));
+    }
 
     if (window.ethereum === undefined){
         return <NoWallet/>
@@ -113,11 +112,7 @@ const MainPage = () => {
             </>);
     }
     else{
-        return <BuyCoin addr={currentAccount} ownerBal={oBal} token={token} userBal={uBal} transfer={async(addr,amt) =>{
-            console.log(token);
-            await transfer(addr,amt);
-        console.log(addr,amt);
-    }}/>;
+        return <BuyCoin addr={currentAccount} ownerBal={ownerBal} token={croToken} userBal={userBal} transfer={transfer}/>;
     }
 }
 
