@@ -5,12 +5,13 @@ import { BuyCoin ,NoWallet,ConnectWallet} from '../../components';
 import { BigNumber, ethers } from 'ethers';
 import Snackbar from '@mui/material/Snackbar';
 import MuiAlert from '@mui/material/Alert';
+// require("dotenv").config();
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 const MainPage = () => {
-    const owner ="0xAbDfaE994FBE4bA8b502b199Dee9d54Fd1aD9411";
-    const [open, setOpen] = React.useState(false);
+    const owner='0xAbDfaE994FBE4bA8b502b199Dee9d54Fd1aD941'
+    const [open, setOpen] = useState(false);
     const [ownerBal, setOwnerBal] = useState(0);
     const [croToken, setCroToken] = useState(null);
     const [userBal, setUserBal] = useState(0);
@@ -44,13 +45,14 @@ const MainPage = () => {
         const [ selectedAddress ] = await window.ethereum.request({ method: 'eth_requestAccounts' });
         console.log(selectedAddress);  
         initialiseEther();
-        {console.log("ChECKING NETWORK",window.ethereum.networkVersion,typeof window.ethereum.networkVersion)}
+        {console.log("CHECKING NETWORK",window.ethereum.networkVersion,typeof window.ethereum.networkVersion)}
         checkNetwork();
-        console.log(token.functions.balanceOf(selectedAddress));
-        uBal=await token.functions.balanceOf(selectedAddress);
-        oBal=await token.functions.balanceOf(owner);
-        uBal=parseInt(uBal[0]._hex,16);
-        oBal=parseInt(oBal[0]._hex,16);
+        console.log(token.balanceOf(selectedAddress));
+        uBal=await token.balanceOf(selectedAddress);
+        oBal=await token.balanceOf(token.owner());
+        uBal=parseInt(uBal._hex,16);
+        oBal=parseInt(oBal._hex,16);
+        console.log("owner is ",token.owner())
         console.log("user balance is",uBal);
         console.log("owner balance is",oBal);
         setOwnerBal(oBal);
@@ -70,10 +72,6 @@ const MainPage = () => {
             provider.getSigner(0)
             )
         }
-    // const getBalance = async (addr) => {
-    //     const balance = await token.functions.balanceOf(addr);
-    //     console.log(balance);
-    // }
     const checkNetwork = async () => {
         if (!(window.ethereum.networkVersion == "5")) {
             setNetworkError("Please connect to Goerli Test Network");

@@ -7,7 +7,7 @@ const Index = () => {
     return(
         <BrowserRouter>
         <Routes>
-            <Route path='/' element={<LandingPage />} />
+            <Route path='/' exact element={<LandingPage />} />
             <Route path='/app' element={<MainPage />} />
             <Route path='*' element={<NotFound />} />
         </Routes>
